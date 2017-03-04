@@ -11,6 +11,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import com.google.gson.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 public class JSONapi {
     OkHttpClient client = new OkHttpClient();
 
@@ -48,9 +53,42 @@ public class JSONapi {
              .filter(b -> "Luke Skywalker".equals(b.getName()))
                 .collect(Collectors.toList());
         System.out.println(sorted);
+
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+
+        try {
+            fw = new FileWriter("test.json");
+            bw = new BufferedWriter(fw);
+            bw.write(sorted.toString());
+
+            System.out.println("Done");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (bw != null)
+                    bw.close();
+
+                if (fw != null)
+                    fw.close();
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+
+        }
+
+        }
              //   .map(h -> h.name)
              //   .collect(Collectors.toList());
         //System.out.println("Persons: " + sorted);
 
     }
-}
